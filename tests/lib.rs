@@ -3,7 +3,7 @@ extern crate split_into;
 use split_into::split_into;
 
 #[test]
-fn test_split_into_empty() {
+fn test_split_into() {
     assert_eq!(Vec::from_elem(0,0),       split_into(10,0));
     assert_eq!(vec!(10),                  split_into(10,1));
     assert_eq!(vec!(5,5),                 split_into(10,2));
