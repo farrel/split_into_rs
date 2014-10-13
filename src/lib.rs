@@ -11,6 +11,5 @@ pub fn split_into(dividend: uint, divisor: uint) -> Vec<uint> {
     }
 
     parts.reverse();
-
     return parts;
 }
