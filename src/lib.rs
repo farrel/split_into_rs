@@ -1,5 +1,5 @@
 pub fn split_into(dividend: uint, divisor: uint) -> Vec<uint> {
-    if divisor == 0 { return Vec::from_elem(0, 0)};
+    if divisor == 0 { return Vec::from_elem(0, dividend)};
 
     let quotient = dividend / divisor;
     let remainder = dividend % divisor;
