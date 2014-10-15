@@ -6,7 +6,7 @@ pub fn split_into(dividend: uint, divisor: uint) -> Result<Vec<uint>, &'static s
     let quotient = dividend / divisor;
     let remainder = dividend % divisor;
 
-    let mut parts: Vec<uint> = Vec::from_elem(divisor as uint, quotient);
+    let mut parts: Vec<uint> = Vec::from_elem(divisor, quotient);
 
     for x in range(0, remainder) {
         *parts.get_mut(x) = parts[x] + 1;
