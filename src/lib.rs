@@ -17,7 +17,7 @@ impl SplitInto for int {
 
         let mut parts: Vec<int> = Vec::from_elem(divisor, quotient);
 
-        let adjustment = if dividend > 0 { 1i } else if dividend < 0 { -1i } else { 0i }; 
+        let adjustment = if dividend > 0 { 1i } else { -1i }; 
 
         for x in range(0, remainder as uint) {
             *parts.get_mut(x) = parts[x] + adjustment;
