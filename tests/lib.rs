@@ -4,7 +4,7 @@ use split_into::SplitInto;
 
 #[test]
 fn test_split_into_zero_divisor() {
-    assert_eq!(Err("Divisor is zero"),        0.split_into(0));
+    assert_eq!(Err("Divisor is zero"), 0.split_into(0));
 }
 
 #[test]

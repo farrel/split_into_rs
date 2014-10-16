@@ -8,6 +8,7 @@ pub trait SplitInto {
 impl SplitInto for int {
     fn split_into(&self, divisor: uint) -> Result<Vec<int>, &'static str> {
         let dividend = *self;
+
         if divisor == 0                     { return Err(DIVISOR_IS_ZERO); }
         if dividend == 0                    { return Ok(Vec::from_elem(divisor,0i)); }
         if divisor > dividend.abs() as uint { return Err(DIVISOR_LARGER_THAN_DIVIDEND); }
