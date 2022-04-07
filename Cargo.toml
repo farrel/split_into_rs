@@ -1,10 +1,6 @@
 [package]
-
 name = "split_into"
 version = "0.0.1"
 authors = ["Farrel Lifson <farrel.lifson@aimred.com>"]
+edition = "2021"
 
-[lib]
-
-name = "split_into"
-crate-type = ["dylib"]

@@ -1,29 +1,42 @@
-static DIVISOR_IS_ZERO: &'static str              = "Divisor is zero";
-static DIVISOR_LARGER_THAN_DIVIDEND: &'static str = "Divisor is larger than the dividend";
+pub mod error;
+
+use error::Error;
 
 pub trait SplitInto {
-    fn split_into(&self, divisor: uint) -> Result<Vec<int>, &'static str>; 
+    fn split_into(&self, divisor: Self) -> Result<Vec<Self>, Error>
+    where
+        Self: Sized;
 }
 
-impl SplitInto for int {
-    fn split_into(&self, divisor: uint) -> Result<Vec<int>, &'static str> {
+impl SplitInto for i64 {
+    fn split_into(&self, divisor: i64) -> Result<Vec<i64>, Error> {
         let dividend = *self;
 
-        if divisor == 0                     { return Err(DIVISOR_IS_ZERO); }
-        if dividend == 0                    { return Ok(Vec::from_elem(divisor,0i)); }
-        if divisor > dividend.abs() as uint { return Err(DIVISOR_LARGER_THAN_DIVIDEND); }
-
-        let quotient  = dividend / divisor as int;
-        let remainder = dividend.abs() as uint % divisor;
-        let adjustment = if dividend > 0 { 1i } else { -1i }; 
-
-        let mut parts: Vec<int> = Vec::from_elem(divisor, quotient);
-
-        for x in range(0, remainder as uint) {
-            *parts.get_mut(x) = parts[x] + adjustment;
+        match divisor {
+            0 => return Err(Error::DivisorIsZero),
+            1 => return Ok(vec![dividend]),
+            _ => (),
         }
 
-        parts.reverse();
-        return Ok(parts);
+        if dividend == 0 {
+            return Ok(vec![0; divisor.try_into().unwrap()]);
+        }
+        if divisor > dividend {
+            return Err(Error::DivisorLargerThanDividend);
+        }
+
+        let quotient = dividend / divisor;
+        let remainder = dividend.abs() % divisor;
+        let adjustment = if dividend > 0 { 1 } else { -1 };
+
+        let mut parts: Vec<i64> = vec![quotient; divisor.try_into().unwrap()];
+        let start = parts.len() - remainder as usize;
+        let finish = parts.len() - 1;
+
+        for x in start..finish {
+            parts[x] = parts[x] + adjustment;
+        }
+
+        Ok(parts)
     }
 }
