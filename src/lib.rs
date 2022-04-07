@@ -21,7 +21,7 @@ impl SplitInto for i64 {
         if dividend == 0 {
             return Ok(vec![0; divisor.try_into().unwrap()]);
         }
-        if divisor > dividend {
+        if divisor > dividend.abs() {
             return Err(Error::DivisorLargerThanDividend);
         }
 
@@ -30,11 +30,14 @@ impl SplitInto for i64 {
         let adjustment = if dividend > 0 { 1 } else { -1 };
 
         let mut parts: Vec<i64> = vec![quotient; divisor.try_into().unwrap()];
+        if remainder == 0 {
+            return Ok(parts);
+        }
         let start = parts.len() - remainder as usize;
-        let finish = parts.len() - 1;
+        let finish = parts.len();
 
         for x in start..finish {
-            parts[x] = parts[x] + adjustment;
+            parts[x] += adjustment;
         }
 
         Ok(parts)
