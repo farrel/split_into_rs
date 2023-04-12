@@ -5,7 +5,12 @@ use split_into::SplitInto;
 
 #[test]
 fn test_split_into_zero_divisor() {
-    assert_eq!(Err(Error::DivisorIsZero), 0.split_into(0));
+    assert_eq!(Err(Error::DivisorIsZero), 10.split_into(0));
+}
+
+#[test]
+fn test_split_into_negative_divisor() {
+    assert_eq!(Err(Error::DivisorIsNegative), 10.split_into(-2));
 }
 
 macro_rules! split_test {
@@ -69,9 +74,4 @@ fn test_split_into_zero_dividend() {
     assert_eq!(Ok(vec!(0, 0, 0, 0, 0, 0, 0, 0)), 0.split_into(8));
     assert_eq!(Ok(vec!(0, 0, 0, 0, 0, 0, 0, 0, 0)), 0.split_into(9));
     assert_eq!(Ok(vec!(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 0.split_into(10));
-}
-
-#[test]
-fn test_split_into_negative_divisor() {
-    assert_eq!(Err(Error::DivisorIsNegative), 10.split_into(-2));
 }
