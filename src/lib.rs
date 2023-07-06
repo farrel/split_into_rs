@@ -25,23 +25,25 @@ macro_rules! i_split_into {
                 if dividend == 0 {
                     return Ok(vec![0; divisor as usize]);
                 }
+
                 if divisor > dividend.abs() {
                     return Err(Error::DivisorLargerThanDividend);
                 }
 
                 let quotient = dividend / divisor;
                 let remainder = dividend.abs() % divisor;
-                let adjustment = if dividend > 0 { 1 } else { -1 };
 
-                let mut parts: Vec<Self> = vec![quotient; divisor.try_into().unwrap()];
+                let mut parts: Vec<Self> = vec![quotient; divisor as usize];
                 if remainder == 0 {
                     return Ok(parts);
                 }
+
                 let start = parts.len() - remainder as usize;
                 let finish = parts.len();
 
+                let adjustment = if dividend > 0 { quotient + 1 } else { quotient -1 };
                 for x in start..finish {
-                    parts[x] += adjustment;
+                    parts[x] = adjustment;
                 }
 
                 Ok(parts)
@@ -66,6 +68,7 @@ macro_rules! u_split_into {
                 if dividend == 0 {
                     return Ok(vec![0; divisor as usize]);
                 }
+
                 if divisor > dividend {
                     return Err(Error::DivisorLargerThanDividend);
                 }
@@ -73,15 +76,18 @@ macro_rules! u_split_into {
                 let quotient = dividend / divisor;
                 let remainder = dividend % divisor;
 
-                let mut parts: Vec<Self> = vec![quotient; divisor.try_into().unwrap()];
+                let mut parts: Vec<Self> = vec![quotient; divisor as usize];
                 if remainder == 0 {
                     return Ok(parts);
                 }
+
                 let start = parts.len() - remainder as usize;
                 let finish = parts.len();
 
+                let adjustment = quotient + 1;
+
                 for x in start..finish {
-                    parts[x] += 1;
+                    parts[x] = adjustment;
                 }
 
                 Ok(parts)
