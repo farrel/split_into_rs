@@ -26,22 +26,24 @@ macro_rules! i_split_into {
                     return Ok(vec![0; divisor as usize]);
                 }
 
-                if divisor > dividend.abs() {
+                let abs_dividend = dividend.abs();
+
+                if divisor > abs_dividend {
                     return Err(Error::DivisorLargerThanDividend);
                 }
 
                 let quotient = dividend / divisor;
-                let remainder = dividend.abs() % divisor;
+                let remainder = abs_dividend % divisor;
 
                 let mut parts: Vec<Self> = vec![quotient; divisor as usize];
                 if remainder == 0 {
                     return Ok(parts);
                 }
 
-                let start = parts.len() - remainder as usize;
                 let finish = parts.len();
+                let start = finish - remainder as usize;
 
-                let adjustment = if dividend > 0 { quotient + 1 } else { quotient -1 };
+                let adjustment = if dividend > 0 { quotient + 1 } else { quotient - 1 };
                 for x in start..finish {
                     parts[x] = adjustment;
                 }
@@ -81,8 +83,8 @@ macro_rules! u_split_into {
                     return Ok(parts);
                 }
 
-                let start = parts.len() - remainder as usize;
                 let finish = parts.len();
+                let start = finish - remainder as usize;
 
                 let adjustment = quotient + 1;
 
